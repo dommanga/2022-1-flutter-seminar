@@ -1,11 +1,13 @@
 # Flutter & Dart 문법
 ## 개요
-- Dart 특징
-- 객체지향
-- Dart 기본 문법
-- Null Safety
-- Dart 기분 구문
-- 그 외 특징들
+- [Dart 특징](#1-dart-특징)
+- [객체지향](#2-객체지향)
+- [Dart 기본 문법](#3-dart-기본-문법)
+- [Null Safety](#4-null-safety)
+- [Dart 기분 구문](#5-dart-기본-구문)
+- [그 외 특징들](#6-그-외-특징들)
+
+클릭하여 문서 내 이동 가능합니다.
 
 ## 0. 팁
 아래의 예제들을 따라할 때 ```Android Studio``` 를 사용하거나 ```DartPad```(https://dartpad.dev)를 간편하게 사용할 수 있다.<br>
@@ -513,6 +515,8 @@ Error: A value of type 'String?' can't be assigned to a variable of type 'String
                ^
 */
 ```
+
+
 ```printString``` 함수는 반환값으로 ```String?```을 반환하지만 실제로는 이 값을 받는 ```str```는 ```String```형의 변수이기 때문에 해당 반환 값이 ```null```일 가능성을 가진다고 판단하여 에러를 내는 것이다.<Br> 이럴때는 해당 변수가 ```null```이 아니라고 명시하기 위해서는 변수 뒤에 ```!```를 붙이면 된다. 하지만 ```null```일 가능성이 있음에도 ```!```를 붙이게 된다면 나중에 에러를 만나게 될 수 있으니 신중히 사용하여야 한다.
 ```Dart
 void main() {
@@ -528,6 +532,300 @@ String? printString(String str){
 It is 하하
 */
 ```
+<br>
+
+## 5. Dart 기본 구문
+
+반복문, 조건문 등 기본적인 Dart 구문에 대한 내용이다.
+### 조건문 (Conditional Statement)
+특정 조건에 반응하여 코드를 실행하는 구문이다.
+#### <b>if, else 문</b>
+```if```는 ```()``` 안에 있는 조건을 만족할 때 ```{}``` 안의 내용을 실행하는 구문이다. <br>
+```else```는 바로 직전의 ```if```문의 조건을 만족하지 않았을 때 실행되는 내용을 ```{}```에 포함하고 있다. 
+```Dart
+void main() {
+  int a = 100;
+  if(a == 100)
+  {
+    print("A is 100");
+  }
+  else
+  {
+    print("A is not 100");
+  }
+}
+
+/* 출력값
+A is 100
+*/
+```
+위 예제의 경우 ```a``` 값을 100이 아닌 다른 값으로 바꾸게 될 경우 ```else``` 구문이 실행되게 되면서 ```A is not 100```이 출력되게 된다.<br>
+```else```와 ```if```를 함께 사용해서 직전의 if문이 만족하지 않을 때, 다시 조건을 통해 실행 여부를 결정할 수 있다.
+```Dart
+void main() {
+  int score = 77;
+  String grade = "";
+  if (score >= 90) {
+    grade = "A";
+  } else if (score >= 80) {
+    grade = "B";
+  } else if (score >= 70) {
+    grade = "C";
+  } else if (score >= 60) {
+    grade = "D";
+  } else {
+    grade = "F";
+  }
+  print("Your grade is $grade");
+}
+
+/* 출력값
+Your grade is C
+*/
+```
+말로 된 해설<br>
+점수가 77일 때<br>
+90점 이상입니까? -> 아닙니다. 
+<br>-> 아니라면 80점 이상입니까? 
+<br>-> 아닙니다. -> 아니라면 70점 이상입니까? 
+<br>-> 맞습니다. -> 그 뒤 아니라면 구문은 신경 쓸 필요 없음.
+<br>
+
+#### <b>switch, case 문</b>
+특정 경우에 ```if, else``` 구문을 대신하여 사용된다. 범위를 묻는 조건이 아닌 특정한 값인지 묻는 경우(```==```조건)에 사용되고 조건으로 구분하는 값들이 많아지면 ```if, else``` 대신에 사용된다.<br>
+```switch()``` 안에는 판별을 원하는 변수를 집어넣는다.<br>
+```{}``` 안에는 변수가 어떠한 케이스(경우)인지에 따라 구문을 실행하는 ```case```을 집어 넣는다.
+```case 1 : {...}``` 는 변수 값이 1일 때 실행해야 하는 구문을 나타낸 것이다. 
+<br>
+
+주의해야할 점은 ```case``` 문 안의 실행되는 구문에는 반드시 마지막에 ```break 또는 return```를 넣어주어야 한다. 그렇지 않으면 해당 케이스 밑의 모든 케이스의 구문을 실행하게 된다. ```Dart```의 경우 컴파일 중 에러를 뱉는다.
+
+```Dart
+void main() {
+  String grade = "D";
+  switch (grade) {
+    case 'A':
+      print("대학원 진학을 추천합니다.");
+      break;
+    case 'B':
+      print("준수한 성적입니다.");
+      break;
+    case 'C':
+      print("다음에는 더 열심히 해보세요.");
+      break;
+    case 'D':
+      print("재수강을 추천합니다.");
+      break;
+    default:
+      print("힘내세요.");
+      break;
+  }
+}
+/* 출력값
+재수강을 추천합니다.
+*/
+```
+만약 grade가 "B"였다면 "준수한 성적입니다."를 출력했을 것이다.<br>
+
+#### <b>삼항 연산자</b>
+
+구문이 아닌 연산자이지만 위의 ```if, else```와 비슷한 역활을 수행하지만 짧은 코딩이 가능하게 한다. Flutter에서는 사용하는 경우가 생기지만 코드 구조를 파악하기에 어렵기에 추천하지는 않는다.<br>
+이름답게 항 3개를 값으로 받는다. 기본적은 구조는 ```<값1> ? <값2> : <값3>``` 꼴이다. 값1은 조건, 값2는 조건이 충족되었을 때의 반환 값, 값3은 조건이 충족되지 않을 때의 반환 값을 집어 넣는다. 
+```Dart
+void main() {
+  int score = 60;
+  print(score >= 50 ? "절반이나 넘었군요." : "절반은 못 넘었군요.");
+  score = 30;
+  print(score >= 50 ? "절반이나 넘었군요." : "절반은 못 넘었군요.");
+}
+
+/* 출력값
+절반이나 넘었군요.
+절반은 못 넘었군요.
+*/
+```
+<br>
+
+### 반복문 (Loop Statement)
+특정 조건이 만족하는 동안 특정 코드를 반복하는 구문이다.
+#### <b>for 문</b>
+for는 초기값을 가지며 특정 조건이 만족하는 동안 괄호 안의 코드를 실행하며 매 순환의 끝에 특정 코드를 실행한다.<br>
+for문의 기본 구조는 다음과 같다.
+```Dart
+for(<초기값>; <조건>; <매 회 말 실행코드 >){
+  <조건 만족시 실행 코드>
+}
+```
+i의 초기값이 0이며, 5보다 작거나 같은 동안 츨력하며, 매 회 말에 i를 1씩 증가시키는 ```for```구문
+```Dart
+void main() {
+  for (int i = 0; i <= 5; i++) {
+    print(i);
+  }
+}
+
+/* 출력값
+0
+1
+2
+3
+4
+5
+*/
+```
+위는 가장 기본 기본적인 형태이며 ```for``` 구문은 다양한 형태를 가지고 있다.
+
+<b>for in list</b><br>
+List 안을 처음부터 끝까지 돌며 각 값들을 앞의 변수에 집어넣는다. 또한 그 때마다 for 구문 안의 코드를 반복한다.<br>
+Dynamic List a 안을 item 변수가 처음부터 끝까지 도는 예제이다.
+
+```Dart
+void main() {
+  List<dynamic> a = ["일", 2, true, DateTime.now()];
+  for (var item in a) {
+    print("Item : $item");
+  }
+}
+
+/* 출력값
+Item : 일
+Item : 2
+Item : true
+Item : 2022-04-16 16:26:07.250
+*/
+```
+
+<b>forEach</b><br>
+위의 for in list 활용을 더 간단히 바꾼 것이다.
+
+```Dart
+void main() {
+  List<dynamic> a = ["일", 2, true, DateTime.now()];
+  a.forEach((element){
+    print("Item : $element");
+  });
+}
+/* 출력값
+Item : 일
+Item : 2
+Item : true
+Item : 2022-04-16 16:31:18.294
+*/
+```
+<br>
+
+#### <b>while 문</b>
+```while```은 조건이 만족하면 안의 구문을 실행하고 조건을 검사하며 계속 반복하는 구문이다. 무한 Loop에 갖히게 될 수 있으므로 ```while```을 사용하기 보다는 되도록 ```for```문을 사용해야 한다.<br><br>
+조건에 들어가는 i 값을 변경하는 구문이 없어 무한 loop에 빠진 경우
+```Dart
+void main() {
+  int i = 5;
+  while (i > 0) {
+    print(i);
+  }
+}
+/* 출력값 : 계속 출력하게 되어 에러를 발생
+5
+5
+5
+...
+*/
+```
+올바른 경우
+```Dart
+void main() {
+  int i = 5;
+  while (i > 0) {
+    print(i);
+    i--;
+  }
+}
+
+/* 출력값
+5
+4
+3
+2
+1
+*/
+```
+<br>
+
+### 그 외 구문들
+반복문, 조건문 외에 Dart, Flutter에서 자주 사용되는 구문들이다.
+#### <b>try-catch, on, throw </b>
+프로그램이 런타임 에러에 의해 강제로 종료되거나 의도치 않은 행동을 하는 것을 방지하기 위한 에러 처리 구문이다.<br>
+```try``` 내에는 실행하고 싶은 코드들을 집어 넣는다. ```catch``` 내에는 ```try``` 내 코드를 실행 중 에러를 발생했을 때 실행할 구문을 집어 넣는다. 이 때 발생한 에러를 변수로 받아 사용할 수 있다.
+
+```Dart
+void main() {
+  int a = 10;
+  int b = 0;
+  print(a ~/ b);
+}
+
+/* 출력값 : DartPad 스크립트 에러
+Script error.
+*/
+```
+스크립트 에러가 발생하여 프로그램이 중간에 예기치 못하게 종료되었다. 실제 서비스에서 발생해서는 안될 문제이다.<br>
+이를 ```try-catch```을 이용해 해결해 보면 다음과 같다.
+```Dart
+void main() {
+  try {
+    int a = 10;
+    int b = 0;
+    print(a ~/ b);
+  } catch (e) {
+    print("에러가 발생했습니다.");
+    print("에러 : "+e.toString());
+  }
+}
+/* 출력값
+에러가 발생했습니다.
+에러 : Unsupported operation: Result of truncating division is Infinity: 10 ~/ 0
+*/
+```
+e라는 변수에 발생한 에러를 받아 출력한 모습이다.
+<br><br>
+
+<b>on</b><br>
+
+```try-catch```와 함께 사용할 수 있는 ```on```은 특정 에러 타입에만 반응하게 하는 해주는 코드이다. 런타임 에러에는 네트워크 에러, 연산자 에러 등 다양한 에러가 존재하게 되는데 ```on 연산자 에러```라고 하면 연산자 에러가 발생할 때만 반응하게 하는 것이다.<br> 특정 코드 뭉치에서 다양한 에러가 발생할 가능성이 있을 때 각 에러에 따라 다른 반응을 하게 하고 싶을 때 사용한다.
+```Dart
+void main() {
+  int x = 12;
+  int y = 0;
+  int res;
+
+  try {
+    res = x ~/ y;
+  } on UnsupportedError {
+    print('Cannot divide by zero');
+  }
+}
+/* 출력값
+Cannot divide by zero
+*/
+```
+```UnsupportedError```라는 특정 타입의 에러에 반응하여 안의 구문을 실행한 모습이다.<br><br>
+<b>throw</b><br>
+직접 에러를 발생하는 명령어이다. 괄호 안에 넣은 문자열을 에러 내용으로 포함한다.
+
+```Dart
+void main() {
+  try {
+    throw Exception("커스텀 에러입니다.");
+  } catch(e) {
+    print(e);
+  }
+}
+/* 출력값
+Exception: 커스텀 에러입니다.
+*/
+```
+<br>
+
 ## 6. 그 외 특징들
 
 다음은 문법은 아니지만 권장되는 사항이다.(Coding Standard, Coding Convention 이라고 한다.)
